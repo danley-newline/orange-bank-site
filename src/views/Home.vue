@@ -5,8 +5,11 @@
             <div class="bienvenue-block w-75">
                 <h1 class="font-weight-bold text-shad-2 fs-75">Bienvenue chez vous !</h1>
                 <p class="font-weight-bold text-shad-2">DÉMARRER PAS À PAS</p>
-                    <div class="card-news-info bord-rad-10 p-5 w-100">
-                        <div class="row px-5">
+                    <div class="card-news-info bord-rad-10 p-3 w-100">
+                        <div>
+                            <img class="w-100" src="../assets/images/pret-tik.png" alt="" />
+                        </div>
+                        <!-- <div class="row px-5">
                             <div class="col-md-3">
                                 <div class="content-bienvenue">
                                     <p class="font-weight-bold color-bl-dark">
@@ -60,7 +63,7 @@
                             </div>
                             
                             
-                        </div>
+                        </div> -->
                     </div>
             </div>
         </div>
@@ -113,7 +116,7 @@
 
                             <p>{{items.chambre}}</p>
                             <a href="/details-chambre" class="my-special-a">
-                            <button class="pack-btn" @click="seeDetail(items)">kdekdkek</button>
+                            <button class="pack-btn" @click="seeDetail(items)">Acceder au pack</button>
                             </a>
                             </div>
 
@@ -327,7 +330,7 @@ button.VueCarousel-navigation-button {
 }
 .right-propos-bg{
     background: url(../assets/images/mobile_phone.png);
-    background-size: cover;
+    background-size: contain;
     background-repeat: no-repeat;
 }
 .text-shad-2{

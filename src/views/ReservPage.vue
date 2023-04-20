@@ -21,9 +21,23 @@
                     </div>
                   </div>
                   <div class="col-md-3">
-                    <div class="pb-4" v-for="i in 3" :key="i">
+                    <div class="pb-4">
                       <img
-                        src="../assets/images/chambre.png"
+                        src="../assets/images/seth-doyle.jpg"
+                        class="img-fluid bor-rad-10"
+                        alt=""
+                      />
+                    </div>
+                    <div class="pb-4">
+                      <img
+                        src="../assets/images/richmond-osei.jpg"
+                        class="img-fluid bor-rad-10"
+                        alt=""
+                      />
+                    </div>
+                    <div class="pb-4">
+                      <img
+                        src="../assets/images/annie-spratt.jpg"
                         class="img-fluid bor-rad-10"
                         alt=""
                       />
@@ -63,9 +77,6 @@
                     </div>
                     <div class="interieur" >
                       <img width="80" src="../assets/images/icon-tv.png" alt="" />
-                    </div>
-                    <div class="interieur" >
-                      <img width="80" src="../assets/images/icon-bain.png" alt="" />
                     </div>
                   </div>
 
