@@ -238,10 +238,6 @@ export default {
   mounted(){
        window.addEventListener("scroll", this.onScroll);
 
-        setTimeout(() => {
-            console.log("La valeur reçu ", this.currentPack);
-            
-        }, 2000);
   },
   created(){
            this.currentPack = this.$store.state.clickedPack;

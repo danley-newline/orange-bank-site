@@ -1,6 +1,6 @@
 
-# Nov Hotel Frontend
-Code vuejs du site NovHotel 
+# Obk Frontend
+Code vuejs du site obk 
 
 # Installation
 

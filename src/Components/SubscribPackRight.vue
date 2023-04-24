@@ -110,8 +110,6 @@ export default {
       axios
           .post("/credit", subscribeCredit)
           .then((res) => {
-            console.log("Pret souscrit ", res);
-
             if (res.data.isGranted == true) {
              this.$fire({
                       text: `Cher client, votre crédit est accordé. \n 

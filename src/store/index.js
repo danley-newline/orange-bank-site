@@ -10,20 +10,13 @@ export default new Vuex.Store({
     plugins: [createPersistedState()],
     state:{
         clickedPack:{},
-        isSent:{},
         packList: null,
 
     }, 
     mutations:{
         MutClickedPack(state, payload){
             state.clickedPack = payload;
-            // console.log("la place est ok ", state.clickedPack)
         },
-        ValidationReserve(state, payload){
-            state.isSent = payload;
-            console.log("voir le content ok ", state.isSent)
-        },
-
 
         MutPacksList(state, payload){
             state.packList = payload;
@@ -35,9 +28,7 @@ export default new Vuex.Store({
         getPacksList({commit}){
             axios.get(`/product`)
             .then((response) => {
-                console.log("Nos product ", response);
                 let dan = [];
-                console.log("Yop les noussi ", dan[2]);
                commit("MutPacksList", response.data.data);
             })
             .catch((error) => {
