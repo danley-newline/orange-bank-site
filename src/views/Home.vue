@@ -9,61 +9,7 @@
                         <div>
                             <img class="w-100" src="../assets/images/pret-tik.png" alt="" />
                         </div>
-                        <!-- <div class="row px-5">
-                            <div class="col-md-3">
-                                <div class="content-bienvenue">
-                                    <p class="font-weight-bold color-bl-dark">
-                                        ARRIVÉE
-                                    </p>
-                                    <div class="date-block p-3">
-                                        <small class="mb-0">SAMEDI</small>
-                                        <p class="mb-0"> <span class="number font-weight-bold color-violet"> 17  </span><small>AVR.2021</small></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="content-bienvenue">
-                                    <p class="font-weight-bold color-bl-dark">
-                                        DEPART
-                                    </p>
-                                    <div class="date-block p-3">
-                                        <small>DIMANCHE</small>
-                                        <p class="mb-0"> <span class="number font-weight-bold color-violet"> 18  </span><small>AVR.2021</small></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="content-bienvenue">
-                                    <p class="font-weight-bold color-bl-dark">
-                                        INVITÉS
-                                    </p>
-                                    <div class="date-block special-sm-invite text-center d-flex justify-content-between pb-4 p-3">
-                                        <div>
-                                        <small class="font-weight-bold">ADULTES</small>
-
-                                        <p class="fs-4 p-1 mb-0 mx-2 my-4 bg-violet bord-rad-5 font-weight-bold"> 2 </p>
-
-                                        </div>
-                                        <div>
-                                        <small class="font-weight-bold">ENFANTS</small>
-
-                                        <p class="fs-4 p-1 mb-0 mx-2 my-4 bg-violet bord-rad-5 font-weight-bold"> 1</p>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="content-bienvenue">
-                                    <div class="pos-relative">
-                                    <button class="btn btn-dark-or font-weight-bold w-100">VOIR DISPONIBILITE</button>
-
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            
-                        </div> -->
+                        
                     </div>
             </div>
         </div>
@@ -105,32 +51,56 @@
                 :navigationEnabled="true"
                 :paginationEnabled="false"
                 >
-                <slide v-for="(items, i) in suiteDatas" :key="i" >
+                <slide v-for="(items, i) in retpackList" :key="i" >
                     
 
-                    <div class="image-container hotel-block" >
-                        <img  :src="require(`../assets/images/${items.imgPrim}`)" class="head-img" alt="" /> 
+                    <div class="image-container parent-packs-blocks" >
+                        <div v-if="suiteDatas[i] != undefined">
+                        <img  :src="require(`../assets/images/${suiteDatas[i].imgPrim}`)" class="head-img" alt="" /> 
+                        </div>
+                        <div v-else>
+                        <img  :src="require(`../assets/images/${suiteDatas[0].imgPrim}`)" class="head-img" alt="" /> 
+                        </div>
                         <img width="70" src="../assets/images/heart.png"  class="icon-absolute" alt="" />
                         <div class="overlay">
                             <div class="block-text">
 
-                            <p>{{items.chambre}}</p>
-                            <a href="/details-chambre" class="my-special-a">
-                            <button class="pack-btn" @click="seeDetail(items)">Acceder au pack</button>
-                            </a>
+                            <p class="fw-bold">{{items.code}}</p>
+                            <button class="pack-btn" @click="seeDetail(items, i)">Acceder au pack</button>
                             </div>
 
                             
                         </div>
-                        <div class="hotel-content p-4">
+                        <div class="packs-blocks p-4">
                                 <div class="d-flex justify-content-between">
                                     <p>
                                     <img width="10" src="../assets/images/menu.png" alt="" />
-                                    <span class="mx-3 gray-light">picoCredit</span>
+                                    <span class="mx-3 gray-light">{{items.code}}</span>
                                     </p>
                                     <p>
                                         <small class="color-bl-dark ">Orange Bank</small>
                                     </p>
+
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <p>
+                                    <img width="10" src="../assets/images/menu.png" alt="" />
+                                    <span class="mx-3 gray-light">Demander Jusqu'à </span>
+                                    </p>
+                                    <p>
+                                        <small class="color-bl-dark ">{{ Number(items.maxAmount).toLocaleString() }} Fcfa</small>
+                                    </p>
+
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <p>
+                                    <img width="10" src="../assets/images/menu.png" alt="" />
+                                    <span class="mx-3 gray-light">Sur une periode de </span>
+                                    </p>
+                                    <p>
+                                        <small class="color-bl-dark ">{{ items.durationInDays }} Jours</small>
+                                    </p>
+
                                 </div>
                                 
 
@@ -152,6 +122,7 @@
 
 <script>
 import { Carousel, Slide } from 'vue-carousel';
+import { mapGetters } from 'vuex'
 
 export default {
     data(){
@@ -159,109 +130,19 @@ export default {
             suiteDatas:[
                 {
                     imgPrim:'christina-wocintechchat.jpg',
-                    lieu:'ASSINIE, Ivory Coast',
-                    villaName:'Luxury Villa',
-                    price:250000,
-                    isDisponible:true,
-                    chambre:'NovHôtel Royal Suite',
-                    comode:[
-                        {
-                            icon:'person.png',
-                            text:'12 personnes',
-                        },
-                        {
-                            icon:'bed.png',
-                            text:'6 chambres',
-                        },
-                        {
-                            icon:'bed.png',
-                            text:'6 salles de bain',
-                        },
-                        {
-                            icon:'trace.png',
-                            text:'800 m2',
-                        },
-                    ],
                 },
                 {
-                    imgPrim:'brock-wegner.jpg',
-                    lieu:'ABIDJAN, Ivory Coast',
-                    villaName:'Cocody Villa',
-                    isDisponible:false,
-                    price:300000,
-                    chambre:'NovHôtel Man Suite',
-                    comode:[
-                        {
-                            icon:'person.png',
-                            text:'12 personnes',
-                        },
-                        {
-                            icon:'bed.png',
-                            text:'6 chambres',
-                        },
-                        {
-                            icon:'bed.png',
-                            text:'6 salles de bain',
-                        },
-                        {
-                            icon:'trace.png',
-                            text:'800 m2',
-                        },
-                    ],
+                    imgPrim:'le-buzz-studio.jpg',
                 },
                 {
                     imgPrim:'wilson-ye.jpg',
-                    lieu:'Paris, France',
-                    villaName:'Luxury Villa',
-                    price:250000,
-                    isDisponible:true,
-                    chambre:'NovHôtel Lord Suite',
-                    comode:[
-                        {
-                            icon:'person.png',
-                            text:'12 personnes',
-                        },
-                        {
-                            icon:'bed.png',
-                            text:'6 chambres',
-                        },
-                        {
-                            icon:'bed.png',
-                            text:'6 salles de bain',
-                        },
-                        {
-                            icon:'trace.png',
-                            text:'800 m2',
-                        },
-                    ],
                 },
                 {
-                    imgPrim:'daniela-cuevas.jpg',
-                    lieu:'ABOISSO, Ivory Coast',
-                    villaName:'Luxury Villa',
-                    price:280000,
-                    isDisponible:true,
-                    chambre:'NovHôtel Sky ',
-                    comode:[
-                        {
-                            icon:'person.png',
-                            text:'12 personnes',
-                        },
-                        {
-                            icon:'bed.png',
-                            text:'6 chambres',
-                        },
-                        {
-                            icon:'bed.png',
-                            text:'6 salles de bain',
-                        },
-                        {
-                            icon:'trace.png',
-                            text:'800 m2',
-                        },
-                    ],
+                    imgPrim:'seth-doyle.jpg',
                 },
-
+                {
+                    imgPrim:'richmond-osei.jpg',
+                },
             ],
         }
     },
@@ -269,19 +150,39 @@ export default {
         Carousel, 
         Slide
     },
+
+
+  computed:{
+   ...mapGetters([
+      'retpackList',
+    ]),
+  },
     methods:{
-        seeDetail(e){
-            // console.log("voici le click ", e)
-            this.$store.commit("choosenMutation",e);
+        seeDetail(e, i){
+
+            let data = e;
+            let imgPrim = this.suiteDatas[i] == undefined ? this.suiteDatas[0] : this.suiteDatas[i];
+            Object.assign(data, imgPrim);
+
+            this.$store.commit("choosenMutation",data);
+            this.$router.push('/details-chambre')
             
-            // this.$router.push({name:'detail-page'})
             
         }
+    },
+    mounted(){
+        this.$store.dispatch("getPacksList");
     }
 }
 </script>
 
 <style lang="scss">
+
+.packs-blocks{
+    .color-bl-dark, .gray-light{
+        font-weight: bold;
+    }
+}
 .my-special-a,.my-special-a:hover  {
     color: #000;
     text-decoration: none;
@@ -297,10 +198,10 @@ button.VueCarousel-navigation-button {
 }
 
 
-.hotel-block {
+.parent-packs-blocks {
     border-radius: 10px;
     box-shadow: 0px 1px 11px #ccccccba;
-    margin: 0 2rem;
+    margin:2rem;
     position: relative;
 
     .head-img{
@@ -374,13 +275,6 @@ button.VueCarousel-navigation-button {
     }
 }
 
-.pos-relative{
-    position: relative;
-    button{
-        position: absolute;
-    top: 118px;
-    }
-}
 
 @media screen and (min-width:1339px) {
    .content-bienvenue button{
@@ -433,7 +327,7 @@ button.VueCarousel-navigation-button {
   top: 0;
   left: 0;
   width: 100%;
-  height: 80%;
+  height: 65%;
   opacity: 0;
   transition: opacity 0.5s ease;
   background-color: #ff6701e3;

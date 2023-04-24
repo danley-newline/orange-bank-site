@@ -37,7 +37,7 @@
         </div>
 
 
-      <button class="btn btn-dark-or w-100 mt-4 py-3" type="submit">RESERVER</button>
+      <button class="btn btn-dark-or w-100 mt-4 py-3" type="submit">Soumettre</button>
 
       </form>
 

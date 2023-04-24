@@ -71,15 +71,7 @@
                 </div>
 
                 <div class="descriptioin-chambre">
-                  <div class="d-flex mb-4 pb-2">
-                    <div class="interieur" >
-                      <img width="80" src="../assets/images/icon-bed.png" alt="" />
-                    </div>
-                    <div class="interieur" >
-                      <img width="80" src="../assets/images/icon-tv.png" alt="" />
-                    </div>
-                  </div>
-
+                  
                   <p class="color-bl-dark fs-5">Description</p>
                   <p>
                     Licing elit. Dolor, earum fuga! Accusamus voluptatibus
@@ -117,7 +109,6 @@ export default {
   },
   created(){
            this.placeContent = this.$store.state.ChoosenPlace;
-            // console.log("coisi reserve-page ", this.placeContent)
     },
   components:{
     ReservCardRight,

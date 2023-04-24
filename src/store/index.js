@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex, { Store } from 'vuex'
-import axios from 'axios'
+import axios from '../services/index.js'
 import createPersistedState from "vuex-persistedstate";
 
 
@@ -10,7 +10,9 @@ export default new Vuex.Store({
     plugins: [createPersistedState()],
     state:{
         ChoosenPlace:{},
-        isSent:{}
+        isSent:{},
+        packList: null,
+
     }, 
     mutations:{
         choosenMutation(state, payload){
@@ -21,36 +23,38 @@ export default new Vuex.Store({
             state.isSent = payload;
             console.log("voir le content ok ", state.isSent)
         },
-        // setLoading(state, payload){
 
-        // }
+
+        MutPacksList(state, payload){
+            state.packList = payload;
+         },
         
         
     },
     actions:{
-        // async sendReserveContent(body) {
-        //     // Store.commit('setLoading', true)
-        //     return await axios.post("http://127.0.0.1:8000/api/post", body)
-        //          .then(res => {
-        //              console.log("retoir res ", res.data)
-        //              commit("ValidationReserve", res.data)
-        //          })
-
-        // },
-
-
-
-        // sendReserveContent(data){
-        //     axios.post("http://127.0.0.1:8000/api/post", data)
-        //     .then(response => {
-        //         console.log(response);
-        //         console.log("Etudiant baaabo", data);
-        //     }),(error => {
-        //         console.log(error);
-        //     })
-
-        // },
+        getPacksList({commit}){
+            axios.get(`/product`)
+            .then((response) => {
+                console.log("Nos product ", response);
+                let dan = [];
+                console.log("Yop les noussi ", dan[2]);
+               commit("MutPacksList", response.data.data);
+            })
+            .catch((error) => {
+               if (error.response.status == 401) {
+               commit("mutLogin", false);
+               localStorage.clear();
+               }
+            });
+         },
+    },
 
 
-    }
+    getters: {
+         retpackList(state){
+            return state.packList || [];
+         },
+         
+         
+       }
 })

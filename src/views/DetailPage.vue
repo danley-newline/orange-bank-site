@@ -87,40 +87,19 @@
 
         </div>
         <div class="col-md-4 p-0">
-            <div class="bord-ccc pt-5 pb-4 px-4 bor-rad-5  reservation-block">
-              <h3 class="font-weight-bold">
-                  <strong>{{placeContent.chambre}}</strong>
-              </h3>
-              <small>{{placeContent.villaName}}</small> <br />
-              <small>{{placeContent.lieu}}</small>
-
-              <p class="font-weight-bold">À Partir De {{placeContent.price.toLocaleString()}} / Semaine </p>
             
-
-              
-              <button class="btn btn-dark-or w-100 my-4" @click="goToReservePage(placeContent)">Continuer</button>
-              <div class="text-center bord-btm-ccc pb-3">
-              </div>
-              <p class="mt-4">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem obcaecati nihil officiis perspiciatis cum quasi? Fugit tempore eaque debitis saepe.</p>
-            </div>
-
-
-
-
-
-
-             <div class="bord-ccc pt-5 pb-4 px-4 bor-rad-5  reservation-fixed" :class="{hide_fixed: scrollData < 100}">
+             <div class="bord-ccc pt-5 pb-4 px-4 bor-rad-5  reservation-fixed" :class="{hide_fixed: scrollData < 40}">
               <h3 class="font-weight-bold">
-                  <strong>{{placeContent.chambre}}</strong> 
+                  <strong>{{placeContent.code}}</strong> 
               </h3>
-              <small>{{placeContent.villaName}}</small> <br />
-              <small>{{placeContent.lieu}}</small>
+              <small>Taux de : {{placeContent.interestRate}}%</small> <br />
+              <small> Frais dossier : {{ Number(placeContent.creditFeesAmount).toLocaleString() }} Fcfa</small>
 
-              <p class="font-weight-bold">À Partir De {{placeContent.price.toLocaleString()}} F / Semaine </p>
+              <p class="font-weight-bold">Avec un delais de :  {{placeContent.durationInDays}}  Jours </p>
 
              
-              <button class="btn btn-dark-or w-100 my-4" @click="goToReservePage(placeContent)">Continuer</button>
-              <div class="text-center bord-btm-ccc pb-3">
+              <button class="btn btn-dark-or w-100 my-1" @click="goToReservePage(placeContent)">Continuer</button>
+              <div class="text-center bord-btm-ccc pb-1">
               </div>
               <p class="mt-4">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem obcaecati nihil officiis perspiciatis cum quasi? Fugit tempore eaque debitis saepe.</p>
             </div>
@@ -258,19 +237,20 @@ export default {
   },
   mounted(){
        window.addEventListener("scroll", this.onScroll);
+
+        setTimeout(() => {
+            console.log("La valeur reçu ", this.placeContent);
+            
+        }, 2000);
   },
   created(){
            this.placeContent = this.$store.state.ChoosenPlace;
-           this.isReserve = this.placeContent.isDisponible;
-            // console.log("coisi detail-page ", this.placeContent)
     },
   methods:{
       onScroll(e){
           this.scrollData = window.top.scrollY;
-        //   console.log("Data scroll ", this.scrollData)
       },
       goToReservePage(e){
-
           this.$store.commit("choosenMutation",e);
           this.$router.push({name:'reserv-page'})
       },
@@ -373,8 +353,7 @@ export default {
     position: fixed;
     top: 14%;
     z-index: 5;
-    width: 440px;
-    height: 544px;
+    width: 350px;
 }
 .hide_fixed{
     display: none;

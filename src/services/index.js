@@ -1,6 +1,14 @@
+//DEV LINK AXIOS
+
+
 import axios from 'axios'
-const getUrl = "http://127.0.0.1:8000/api";
+
+//FOR DEV 
+const getUrl = "http://localhost:8800/api";
+
+//FOR PROD
+// const getUrl = "https://api-pcp.novate-digital.com";
+
 export default axios.create({
     baseURL: `${getUrl}`,
-    
 });
