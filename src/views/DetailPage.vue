@@ -2,7 +2,7 @@
   <div class="">
     <div class="header-block-image text-white"
     :style="{
-      'background-image': 'url(' + require(`../assets/images/${placeContent.imgPrim}`) + ')'
+      'background-image': 'url(' + require(`../assets/images/${currentPack.imgPrim}`) + ')'
   }">
       <div class="container">
         <img class="heart-icon" width="70" src="../assets/images/heart.png" alt="" />
@@ -11,7 +11,7 @@
     <div class="container pos-relative">
       <div class="row mt-5">
         <div class="col-md-7">
-          <h1>{{placeContent.chambre}}</h1>
+          <h1>{{currentPack.chambre}}</h1>
 
           <div class="bord-btm-ccc my-4 pb-5">
               <p class="mb-0">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consequuntur quam corporis voluptatem, facilis dolores dolore sit, molestiae, impedit ex culpa eius quod officia velit accusamus? Doloribus eum animi culpa. Nemo enim reprehenderit quasi soluta fugiat, unde consequatur ratione perspiciatis atque ipsa quibusdam temporibus, eveniet, earum laudantium cumque adipisci porro eius.</p>
@@ -88,17 +88,17 @@
         </div>
         <div class="col-md-4 p-0">
             
-             <div class="bord-ccc pt-5 pb-4 px-4 bor-rad-5  reservation-fixed" :class="{hide_fixed: scrollData < 40}">
+             <div class="bord-ccc pt-5 pb-4 px-4 bor-rad-5  subscribe-fixed" :class="{hide_fixed: scrollData < 40}">
               <h3 class="font-weight-bold">
-                  <strong>{{placeContent.code}}</strong> 
+                  <strong>{{currentPack.code}}</strong> 
               </h3>
-              <small>Taux de : {{placeContent.interestRate}}%</small> <br />
-              <small> Frais dossier : {{ Number(placeContent.creditFeesAmount).toLocaleString() }} Fcfa</small>
+              <small>Taux de : {{currentPack.interestRate}}%</small> <br />
+              <small> Frais dossier : {{ Number(currentPack.creditFeesAmount).toLocaleString() }} Fcfa</small>
 
-              <p class="font-weight-bold">Avec un delais de :  {{placeContent.durationInDays}}  Jours </p>
+              <p class="font-weight-bold">Avec un delais de :  {{currentPack.durationInDays}}  Jours </p>
 
              
-              <button class="btn btn-dark-or w-100 my-1" @click="goToReservePage(placeContent)">Continuer</button>
+              <button class="btn btn-dark-or w-100 my-1" @click="goToReservePage(currentPack)">Continuer</button>
               <div class="text-center bord-btm-ccc pb-1">
               </div>
               <p class="mt-4">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem obcaecati nihil officiis perspiciatis cum quasi? Fugit tempore eaque debitis saepe.</p>
@@ -117,7 +117,7 @@ export default {
   data() {
     return {
         scrollData:0,
-        placeContent:{},
+        currentPack:{},
         isReserve:false,
         experienceContent:[
             {
@@ -239,19 +239,19 @@ export default {
        window.addEventListener("scroll", this.onScroll);
 
         setTimeout(() => {
-            console.log("La valeur reçu ", this.placeContent);
+            console.log("La valeur reçu ", this.currentPack);
             
         }, 2000);
   },
   created(){
-           this.placeContent = this.$store.state.ChoosenPlace;
+           this.currentPack = this.$store.state.clickedPack;
     },
   methods:{
       onScroll(e){
           this.scrollData = window.top.scrollY;
       },
       goToReservePage(e){
-          this.$store.commit("choosenMutation",e);
+          this.$store.commit("MutClickedPack",e);
           this.$router.push({name:'reserv-page'})
       },
           
@@ -336,20 +336,20 @@ export default {
 .pos-relative{
     position: relative;
 }
-.reservation-block{
+.subscribe-block{
     position: absolute;
     top: -12%;
     z-index: 10;
     
 }
 
-.reservation-block, .reservation-fixed{
+.subscribe-block, .subscribe-fixed{
     background: #fff;
     button{
     height: 50px;
 }
 }
-.reservation-fixed{
+.subscribe-fixed{
     position: fixed;
     top: 14%;
     z-index: 5;
@@ -375,7 +375,7 @@ button.VueCarousel-navigation-button.VueCarousel-navigation-next{
 }
 
 @media screen and (max-width:1399px) {
-    .reservation-fixed{
+    .subscribe-fixed{
             width: 380px !important;
             height: 597px !important;
     }
@@ -383,10 +383,10 @@ button.VueCarousel-navigation-button.VueCarousel-navigation-next{
 
 
 @media screen and (max-width:1199px) {
-    .reservation-fixed{
+    .subscribe-fixed{
             width: 328px !important;
     }
-    .reservation-block, .reservation-fixed{
+    .subscribe-block, .subscribe-fixed{
         p img{
            display: none
         }
@@ -423,7 +423,7 @@ button.VueCarousel-navigation-button.VueCarousel-navigation-next{
          }
      }
 
-    .reservation-block {
+    .subscribe-block {
         top: -9%;
     }
    

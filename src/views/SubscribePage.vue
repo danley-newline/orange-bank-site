@@ -9,7 +9,7 @@
                 <div class="row">
                   <div class="col-md-9 pb-4 goback-block">
                     <img
-                      :src="require(`../assets/images/${placeContent.imgPrim}`)"
+                      :src="require(`../assets/images/${currentPack.imgPrim}`)"
                       class="w-100 h-100 bor-rad-10"
                       alt=""
                     />
@@ -54,7 +54,7 @@
                         align-items-center
                       "
                     >
-                      <p class="font-weight-bold h3">{{placeContent.chambre}}</p>
+                      <p class="font-weight-bold h3">{{currentPack.chambre}}</p>
 
                       <p class="gray-light mb-0">
                         <img
@@ -87,7 +87,7 @@
               </div>
               <div class="col-md-3 special-souscript-sm">
                 
-                <ReservCardRight :chambreChoose="placeContent"/>
+                <SubscribPackRight :packChoose="currentPack"/>
               </div>
             </div>
           </div>
@@ -99,19 +99,19 @@
 </template>
 
 <script>
-import ReservCardRight from '../Components/ReservCardRight.vue'
+import SubscribPackRight from '../Components/SubscribPackRight.vue'
 export default {
   data(){
     return{
-        placeContent:{},
+        currentPack:{},
 
     }
   },
   created(){
-           this.placeContent = this.$store.state.ChoosenPlace;
+           this.currentPack = this.$store.state.clickedPack;
     },
   components:{
-    ReservCardRight,
+    SubscribPackRight,
   },
   methods:{
     goback(){

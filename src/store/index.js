@@ -9,15 +9,15 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     plugins: [createPersistedState()],
     state:{
-        ChoosenPlace:{},
+        clickedPack:{},
         isSent:{},
         packList: null,
 
     }, 
     mutations:{
-        choosenMutation(state, payload){
-            state.ChoosenPlace = payload;
-            // console.log("la place est ok ", state.ChoosenPlace)
+        MutClickedPack(state, payload){
+            state.clickedPack = payload;
+            // console.log("la place est ok ", state.clickedPack)
         },
         ValidationReserve(state, payload){
             state.isSent = payload;

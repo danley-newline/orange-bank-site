@@ -55,11 +55,11 @@
                     
 
                     <div class="image-container parent-packs-blocks" >
-                        <div v-if="suiteDatas[i] != undefined">
-                        <img  :src="require(`../assets/images/${suiteDatas[i].imgPrim}`)" class="head-img" alt="" /> 
+                        <div v-if="packStockImg[i] != undefined">
+                        <img  :src="require(`../assets/images/${packStockImg[i].imgPrim}`)" class="head-img" alt="" /> 
                         </div>
                         <div v-else>
-                        <img  :src="require(`../assets/images/${suiteDatas[0].imgPrim}`)" class="head-img" alt="" /> 
+                        <img  :src="require(`../assets/images/${packStockImg[0].imgPrim}`)" class="head-img" alt="" /> 
                         </div>
                         <img width="70" src="../assets/images/heart.png"  class="icon-absolute" alt="" />
                         <div class="overlay">
@@ -127,7 +127,7 @@ import { mapGetters } from 'vuex'
 export default {
     data(){
         return{
-            suiteDatas:[
+            packStockImg:[
                 {
                     imgPrim:'christina-wocintechchat.jpg',
                 },
@@ -161,11 +161,11 @@ export default {
         seeDetail(e, i){
 
             let data = e;
-            let imgPrim = this.suiteDatas[i] == undefined ? this.suiteDatas[0] : this.suiteDatas[i];
+            let imgPrim = this.packStockImg[i] == undefined ? this.packStockImg[0] : this.packStockImg[i];
             Object.assign(data, imgPrim);
 
-            this.$store.commit("choosenMutation",data);
-            this.$router.push('/details-chambre')
+            this.$store.commit("MutClickedPack",data);
+            this.$router.push('/details-pack')
             
             
         }

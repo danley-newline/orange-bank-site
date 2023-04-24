@@ -54,7 +54,7 @@ import axios from "../services/index.js";
 
 export default {
   props:{
-    chambreChoose:{
+    packChoose:{
       type: Object,
     }
   },
@@ -90,7 +90,7 @@ export default {
     },
 
     subscribeToPack(){
-      this.credit.pack = this.chambreChoose;
+      this.credit.pack = this.packChoose;
       delete this.credit.pack.imgPrim;
 
       this.showLoader = true;

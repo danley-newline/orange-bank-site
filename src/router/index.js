@@ -2,15 +2,15 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import DetailPage from '../views/DetailPage.vue'
 import Home from '../views/Home.vue'
-import ReservPage from '../views/ReservPage.vue'
+import SubscribePage from '../views/SubscribePage.vue'
 
 
 Vue.use(VueRouter);
 
 const routes = [
     {path:'/', component:Home, name:'home-page'},
-    {path:'/details-chambre', component:DetailPage, name:'detail-page'},
-    {path:'/reservation', component:ReservPage, name:'reserv-page'},
+    {path:'/details-pack', component:DetailPage, name:'detail-page'},
+    {path:'/subscribe', component:SubscribePage, name:'reserv-page'},
 
     
 ];
