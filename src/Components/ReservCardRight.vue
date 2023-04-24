@@ -11,7 +11,7 @@
         <label for="">Numéro téléphone</label>
         <div class="input-group mb-2">
         <input
-                v-model="packData.phoneNumber"
+                v-model="credit.numeroClient"
                 type="tel"
                 class="form-control"
                 placeholder="Tel: 0700000700"
@@ -24,7 +24,7 @@
         <label for="">Prêt souhaité</label>
         <div class="input-group mb-0">
         <input
-                v-model.number="packData.creditMount"
+                v-model.number="credit.montant"
                 @input="checkCreditValue"
                 type="number"
                 class="form-control"
@@ -41,7 +41,7 @@
 
       </form>
 
-      <div v-if="showLoader" class="loader">Loading...</div>
+      <div v-if="showLoader" class="loader">Chargement...</div>
         
 
     </div>
@@ -49,8 +49,8 @@
 </template>
 
 <script>
-import axios from 'axios';
 import moment from 'moment';
+import axios from "../services/index.js";
 
 export default {
   props:{
@@ -65,6 +65,13 @@ export default {
         phoneNumber:'',
         creditMount:0,
       },
+
+      credit:{
+        pack:'',
+        numeroClient: '',
+        montant: '',
+      },
+
       showLoader: false
 
       
@@ -73,67 +80,77 @@ export default {
   },
 
   mounted(){
-    console.log("mounted chambre", this.chambreChoose);
-    // this.reserveChambre.total_price = this.chambreChoose.price;
-    // this.pricePerNight = this.chambreChoose.price;
   },
   methods:{
 
     checkCreditValue(){
-      if (this.packData.creditMount < 0) {
-        this.packData.creditMount = 0;
+      if (this.credit.montant < 0) {
+        this.credit.montant = 0;
       }
     },
 
     subscribeToPack(){
-
-
-      console.log("LES INFOS DU FORM ", this.packData);
-      const today = new Date();
-      const limitDate = moment(today).add(30, 'days').format('YYYY-MM-DD');
-
-      const toRepay = this.packData.creditMount + (1.8 * this.packData.creditMount) / 100 + 500;
-
-
-      let data = {
-        phoneNumber: this.packData.phoneNumber,
-        creditMount: this.packData.creditMount,
-        durationInDays: limitDate,
-        amountToRepay: toRepay,
-        created: moment(today).format("YYYY-MM-DD")
-
-      }
-
+      this.credit.pack = this.chambreChoose;
+      delete this.credit.pack.imgPrim;
 
       this.showLoader = true;
 
-      
-      return console.log("le click a été lancé", data);
-      axios.post("http://127.0.0.1:8000/api/post", data)
-              .then(response => {
-                
-                this.SuccesRe = true;
-                setTimeout(()=>{
-                this.SuccesRe = false;
-              },2000);
+      const today = new Date();
+      const limitDate = moment(today).add(this.credit.pack.durationInDays, 'days').format('YYYY-MM-DD');
+      const toRepay = this.credit.montant + (this.credit.pack.interestRate * this.credit.montant) / 100 + this.credit.pack.creditFeesAmount;
 
-              setTimeout(()=>{
-                this.$router.push('/');
-                window.location.reload();
-              },2000);
-                
-              }).catch(err => {
-              // console.log("Erreur coté serveur");
+      let subscribeCredit = {
+        numeroClient: this.credit.numeroClient,
+        montant: this.credit.montant,
+        limitDate: limitDate,
+        amountToRepay: toRepay,
+        productId: this.credit.pack._id
+      }
 
-              this.ErreurServeur = true;
-                setTimeout(()=>{
-                this.ErreurServeur = false;
-              },4000);
+      axios
+          .post("/credit", subscribeCredit)
+          .then((res) => {
+            console.log("Pret souscrit ", res);
 
-              // console.log(err);
-          });
-      
-      // console.log("total info ", this.reserveChambre);
+            if (res.data.isGranted == true) {
+             this.$fire({
+                      text: `Cher client, votre crédit est accordé. \n 
+                        Vous devez le rembourser au plus tard le ${ moment(res.data.limitDate).format('DD-MM-YYYY')} . \n
+                        Le montant à rembourser est de ${Number(res.data.amountToRepay).toLocaleString()} FCFA.`,
+                      type: "success",
+                      confirmButtonText:'ok',
+                    });
+
+                  setTimeout(() => {
+                    location.reload();
+                  }, 8000);
+            }
+            else
+            {
+              this.$fire({
+                      text: `Cher client vous ne pouvez pas prendre ce crédit de ${Number(res.data.montant).toLocaleString()} FCFA , \n
+                            parce que le montant maximal offert par le pack ${res.data.product.code} est de ${Number(res.data.product.maxAmount).toLocaleString()} FCFA`,
+                      type: "warning",
+                      confirmButtonText:'ok',
+                    });
+
+                    setTimeout(() => {
+                    location.reload();
+                  }, 8000);
+            }
+
+             
+
+          })
+          .catch((error) => {
+            this.$fire({
+                      text: `${error}`,
+                      type: "error",
+                      confirmButtonText:'ok',
+                      timer: 5000,
+                    });
+          }); 
+
     }
   },
 
